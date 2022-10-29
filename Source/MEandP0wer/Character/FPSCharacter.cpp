@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include"MEAndP0wer/Inventory/InventoryComponent.h"
 #include "FPSCharacter.h"
 
 // Sets default values
@@ -9,6 +10,8 @@ AFPSCharacter::AFPSCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 20;
 	MaxUseDistance = 800;
 	bHasNewFocus = true;
 }
@@ -37,6 +40,18 @@ AUsableActor* AFPSCharacter::GetUsableInView()
 }
 
 
+
+void AFPSCharacter::UseItem(UItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+
+
+		//BP Event
+		Item->OnUse(this);
+	}
+}
 
 // Called when the game starts or when spawned
 void AFPSCharacter::BeginPlay()

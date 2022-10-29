@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "MEandP0wer/Inventory/InventoryActor.h"
 #include "MEandP0wer/Interactions/UsableActor.h"
+#include "MEandP0wer/Inventory/Item.h"
 #include "FPSCharacter.generated.h"
 
 UCLASS()
@@ -13,13 +14,21 @@ class MEANDP0WER_API AFPSCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+		UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+		class UInventoryComponent* Inventory;
+
 public:
 	// Sets default values for this character's properties
 	AFPSCharacter();
 
+
+
 	/** Use the actor currently in view (if derived from UsableActor) */
 	UFUNCTION(BlueprintCallable, WithValidation, Server, Reliable, Category = PlayerAbility)
 		virtual void Use();
+
+	UFUNCTION(BlueprintCallable, Category = "Items")
+		void UseItem(class UItem* Item);
 
 protected:
 	// Called when the game starts or when spawned
